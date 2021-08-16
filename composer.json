@@ -1,0 +1,24 @@
+{
+    "name": "scaleflex/filerobot",
+    "description": "API Connect Filerobot",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Scaleflex",
+            "email": "tuan@scaleflex.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Scaleflex\\Filerobot\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
