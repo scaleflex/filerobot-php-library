@@ -1,6 +1,6 @@
 # Scaleflex/Filerobot
 
-This is a Filesystem adapter for the filerobot
+This library is a filesystem adapter for Filerobot
 
 # Installation
 
@@ -34,7 +34,7 @@ class Foo {
 }
 ```
 # Usage
-List or search file (Lists all files in your Filerobot store. You can search by providing a search string. Can be recursive.)
+List or search files (Lists all files in your Filerobot container. You can search by providing a search string. Can be recursive.)
 ``` php
 return $this->filerobot->list_file();
 ```
@@ -58,12 +58,12 @@ Rename file (Renames the file with the value given in the body.)
 return $this->filerobot->rename_file($file_uuid);
 ```
 
-Move file (This api will move the file to a new folder. This folder will be created if it doesn't exist.)
+Move file (Will move the file to a new folder. The folder will be created if it doesn't already exist.)
 ``` php
 return $this->filerobot->move_file($file_uuid, $folder_uuid);
 ```
 
-Delete file (You can delete a file by its UUID.)
+Delete file (Delete a file by its UUID)
 ``` php
 return $this->filerobot->delete_file($file_uuid);
 ```
@@ -85,7 +85,7 @@ return $thireturn $this->filerobot->upload_file_remote('/api-demo', '[{"name": "
 return $this->filerobot->upload_file_binary('new_image_from_base64.png', 'base64code')
 ```
 
-List and search folders (Lists all folders in your Filerobot store. You can search (recursively) by providing a search string.)
+List and search folders (Lists all folders in your Filerobot container. You can search by providing a search string. Can be recursive.)
 ``` php
 return $this->filerobot->list_folder();
 ```
@@ -97,7 +97,7 @@ return $this->filerobot->list_folder();
 | offset | 0 | (optional) Specifies the offset of files to display.|
 | order | filename,desc | (optional) Order results by: updated_at created_at Append ,asc or ,desc to get ascending or descending results. Example: updated_at,desc|
 
-Get folder details (You can get all information of a folder identified by its folder_uuid This API will also allow you to check the existence of a folder.)
+Get folder details (Gets all information of a folder identified by its folder_uuid. This API will also allow you to check the existence of a folder.)
 ``` php
 return $this->filerobot->detail_folder($folder_uuid);
 ```
