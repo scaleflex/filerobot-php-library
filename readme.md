@@ -42,7 +42,7 @@ return $this->filerobot->list_file();
 | --- | --- | --- |
 | query | | (optional) Search pattern matching the file name or metadata. |
 | folder | | (optional) Folder to start the search from. Case sensitive. |
-| limit | 50 | (optional) Specifies the maximum amount of files to return. [1-4000].|
+| limit | 50 | (optional) Specifies the maximum number of files to return. [1-4000].|
 | offset | 0 | (optional) Specifies the offset of files to display.|
 | order | filename,desc | (optional) Order results by: updated_at created_at Append ,asc or ,desc to get ascending or descending results. Example: updated_at,desc|
 | mime | |  (optional) Returns only files from specified mimeType.|
@@ -93,7 +93,7 @@ return $this->filerobot->list_folder();
 | --- | --- | --- |
 | query | | (optional) Search pattern matching the folder name or metadata. |
 | folder | | (optional) Folder to start the search from. Case sensitive. |
-| limit | 50 | (optional) Specifies the maximum amount of files to return. [1-4000].|
+| limit | 50 | (optional) Specifies the maximum number of folders to return. [1-4000].|
 | offset | 0 | (optional) Specifies the offset of files to display.|
 | order | filename,desc | (optional) Order results by: updated_at created_at Append ,asc or ,desc to get ascending or descending results. Example: updated_at,desc|
 
@@ -102,22 +102,22 @@ Get folder details (Gets all information of a folder identified by its folder_uu
 return $this->filerobot->detail_folder($folder_uuid);
 ```
 
-Rename folder (Rename the folder identified by its folder_uuid to the value given in the body)
+Rename folder (Renames the folder identified by its folder_uuid to the value given in the body)
 ``` php
 return $this->filerobot->rename_folder($folder_uuid, $name_new);
 ```
 
-Move folder (This api will move a folder, identified by its folder_uuid to a new location (folder) which can be identified by destnation_folder_uuid)
+Move folder (Will move a folder, identified by its folder_uuid to a new location (folder) which can be identified by destination_folder_uuid)
 ``` php
 return $this->filerobot->move_folder($folder_uuid, $destination_folder_uuid);
 ```
 
-Delete folder (Deleting a folder will recursively delete all sub-folders.)
+Delete folder (Deletes a folder and all sub-folders recursively.)
 ``` php
 return $this->filerobot->delete_folder($folder_uuid);
 ```
 
-Create folder (This API will create a folder from the value given in the body.)
+Create folder (Creates a folder from the value given in the body.)
 ``` php
 return $this->filerobot->create_folder($name)
 ```
