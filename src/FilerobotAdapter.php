@@ -117,15 +117,12 @@ class FilerobotAdapter
     public function upload_file_multipart(string $folder, string $path, string $filename)
     {
         return Http::withHeaders([
-            'X-Filerobot-Key' => $this->key,
-            'Content-Type'    => 'multipart/form-data; boundary=---011000010111000001101001'
+            'X-Filerobot-Key' => $this->key
         ])->attach(
             'attachment',
-            file_get_contents($path),
+            '@'.$path,
             $filename
-        )->post($this->api_file, [
-            'folder' => $folder
-        ]);
+        )->post($this->api_file . '?folder=' . $folder);
     }
 
     /**
