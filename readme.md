@@ -36,7 +36,7 @@ class Foo {
 # Usage
 List or search files (Lists all files in your Filerobot container. You can search by providing a search string. Can be recursive.)
 ``` php
-return $this->filerobot->list_file();
+return $this->filerobot->list_file('/api-demo');
 ```
 | Parameter | Default | Description |
 | --- | --- | --- |
@@ -105,7 +105,7 @@ return $this->filerobot->detail_folder($folder_uuid);
 
 Rename folder (Renames the folder identified by its folder_uuid to the value given in the body)
 ``` php
-return $this->filerobot->rename_folder($folder_uuid, $name_new);
+return $this->filerobot->rename_folder($folder_uuid, $new_foldername);
 ```
 
 Move folder (Will move a folder, identified by its folder_uuid to a new location (folder) which can be identified by destination_folder_uuid)
@@ -120,6 +120,6 @@ return $this->filerobot->delete_folder($folder_uuid);
 
 Create folder (Creates a folder from the value given in the body.)
 ``` php
-return $this->filerobot->create_folder($name)
+return $this->filerobot->create_folder($foldername)
 ```
 
