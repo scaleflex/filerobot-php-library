@@ -33,7 +33,7 @@ class FilerobotAdapter
      * @param string $format
      * @return \GuzzleHttp\Promise\PromiseInterface|\Illuminate\Http\Client\Response
      */
-    public function list_file(string $query = '', string $folder = '', int $limit = 50, int $offset = 0, string $order = 'filename,desc', string $mime = '', string $format = '')
+    public function list_file(string $folder = '', string $query = '', string $order = 'filename,asc', int $limit = 50, int $offset = 0, string $mime = '', string $format = '')
     {
         return Http::withHeaders([
             'X-Filerobot-Key' => $this->key,
@@ -120,7 +120,7 @@ class FilerobotAdapter
             'X-Filerobot-Key' => $this->key
         ])->attach(
             'attachment',
-            '@'.$path,
+            file_get_contents($path),
             $filename
         )->post($this->api_file . '?folder=' . $folder);
     }
@@ -141,8 +141,7 @@ class FilerobotAdapter
             'files_urls' => json_decode($files_urls)
         ]);
     }
-
-
+    
     /**
      * Upload file by base64
      *
@@ -172,7 +171,7 @@ class FilerobotAdapter
      * @param string $order
      * @return array|mixed
      */
-    public function list_folder(string $query = '', string $folder = '', int $limit = 50, int $offset = 0, string $order = 'filename,desc')
+    public function list_folder(string $folder = '', string $query = '', string $order = 'filename,desc', int $limit = 50, int $offset = 0)
     {
         return Http::withHeaders([
             'X-Filerobot-Key' => $this->key,

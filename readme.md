@@ -29,7 +29,7 @@ class Foo {
     }
     
     public function bar () {
-        return $this->filerobot->list_file();
+        return $this->filerobot->list_file('/api-demo');
     }
 }
 ```
@@ -40,11 +40,11 @@ return $this->filerobot->list_file();
 ```
 | Parameter | Default | Description |
 | --- | --- | --- |
+| folder | | Folder to start the search from. Case sensitive. |
 | query | | (optional) Search pattern matching the file name or metadata. |
-| folder | | (optional) Folder to start the search from. Case sensitive. |
+| order | filename,desc | (optional) Order results by: updated_at created_at Append ,asc or ,desc to get ascending or descending results. Example: updated_at,desc|
 | limit | 50 | (optional) Specifies the maximum number of files to return. [1-4000].|
 | offset | 0 | (optional) Specifies the offset of files to display.|
-| order | filename,desc | (optional) Order results by: updated_at created_at Append ,asc or ,desc to get ascending or descending results. Example: updated_at,desc|
 | mime | |  (optional) Returns only files from specified mimeType.|
 | format | | (optional) Allows you to export the results as a csv. Example: format=csv |
 
@@ -55,7 +55,7 @@ return $this->filerobot->detail_file($file_uuid);
 
 Rename file (Renames the file with the value given in the body.)
 ``` php
-return $this->filerobot->rename_file($file_uuid);
+return $this->filerobot->rename_file($file_uuid, $new_filename);
 ```
 
 Move file (Will move the file to a new folder. The folder will be created if it doesn't already exist.)
@@ -72,7 +72,7 @@ Upload one or multiple files
 
 - Method 1 - multipart/form-data request
 ``` php
-return $this->filerobot->upload_file_multipart('/api-demo', public_path('bear.jpg'), 'bear.jpg');
+return $this->filerobot->upload_file_multipart('/api-demo', 'path/bear.jpg', 'bear.jpg');
 ```
 
 - Method 2 - URL(s) of remotely hosted file(s)
@@ -82,20 +82,21 @@ return $thireturn $this->filerobot->upload_file_remote('/api-demo', '[{"name": "
 
 - Method 3 - base64-encoded content
 ``` php
-return $this->filerobot->upload_file_binary('new_image_from_base64.png', 'base64code')
+$image = base64_encode(file_get_contents('path/bear.jpeg'));
+return $this->filerobot->upload_file_binary('new_image_from_base64.png', $image)
 ```
 
 List and search folders (Lists all folders in your Filerobot container. You can search by providing a search string. Can be recursive.)
 ``` php
-return $this->filerobot->list_folder();
+return $this->filerobot->list_folder('/api-demo');
 ```
 | Parameter | Default | Description |
 | --- | --- | --- |
+| folder | | Folder to start the search from. Case sensitive. |
 | query | | (optional) Search pattern matching the folder name or metadata. |
-| folder | | (optional) Folder to start the search from. Case sensitive. |
+| order | filename,desc | (optional) Order results by: updated_at created_at Append ,asc or ,desc to get ascending or descending results. Example: updated_at,desc|
 | limit | 50 | (optional) Specifies the maximum number of folders to return. [1-4000].|
 | offset | 0 | (optional) Specifies the offset of files to display.|
-| order | filename,desc | (optional) Order results by: updated_at created_at Append ,asc or ,desc to get ascending or descending results. Example: updated_at,desc|
 
 Get folder details (Gets all information of a folder identified by its folder_uuid. This API will also allow you to check the existence of a folder.)
 ``` php
