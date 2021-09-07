@@ -2,8 +2,6 @@
 
 namespace Scaleflex\Filerobot;
 
-use Illuminate\Support\Facades\Http;
-
 class FilerobotAdapter
 {
     private $key;
@@ -11,6 +9,8 @@ class FilerobotAdapter
     private $api_file = 'https://api.filerobot.com/fdocs/v4/files';
 
     private $api_folder = 'https://api.filerobot.com/fdocs/v4/folders';
+
+    private $http;
 
     /**
      * FilerobotAdapter constructor.
@@ -20,6 +20,7 @@ class FilerobotAdapter
     public function __construct($key)
     {
         $this->key = $key;
+        $this->http = new \Illuminate\Http\Client\Factory();
     }
 
     /**
@@ -35,7 +36,7 @@ class FilerobotAdapter
      */
     public function list_file(string $folder = '', string $query = '', string $order = 'filename,asc', int $limit = 50, int $offset = 0, string $mime = '', string $format = '')
     {
-        return Http::withHeaders([
+        return $this->http->withHeaders([
             'X-Filerobot-Key' => $this->key,
             'Content-Type'    => 'application/json'
         ])->get($this->api_file, [
@@ -57,7 +58,7 @@ class FilerobotAdapter
      */
     public function detail_file(string $file_uuid)
     {
-        return Http::withHeaders([
+        return $this->http->withHeaders([
             'X-Filerobot-Key' => $this->key,
             'Content-Type'    => 'application/json'
         ])->get($this->api_file . '/' . $file_uuid)->json();
@@ -71,7 +72,7 @@ class FilerobotAdapter
      */
     public function rename_file(string $file_uuid, string $name_new)
     {
-        return Http::withHeaders([
+        return $this->http->withHeaders([
             'X-Filerobot-Key' => $this->key,
             'Content-Type'    => 'application/json'
         ])->patch($this->api_file . '/' . $file_uuid, [
@@ -87,7 +88,7 @@ class FilerobotAdapter
      */
     public function move_file(string $file_uuid, string $folder_uuid)
     {
-        return Http::withHeaders([
+        return $this->http->withHeaders([
             'X-Filerobot-Key' => $this->key,
             'Content-Type'    => 'application/json'
         ])->put($this->api_file . '/' . $file_uuid . '/folders/' . $folder_uuid)->json();
@@ -100,7 +101,7 @@ class FilerobotAdapter
      */
     public function delete_file(string $file_uuid)
     {
-        return Http::withHeaders([
+        return $this->http->withHeaders([
             'X-Filerobot-Key' => $this->key,
             'Content-Type'    => 'application/json'
         ])->delete($this->api_file . '/' . $file_uuid)->json();
@@ -116,7 +117,7 @@ class FilerobotAdapter
      */
     public function upload_file_multipart(string $folder, string $path, string $filename)
     {
-        return Http::withHeaders([
+        return $this->http->withHeaders([
             'X-Filerobot-Key' => $this->key
         ])->attach(
             'attachment',
@@ -134,7 +135,7 @@ class FilerobotAdapter
      */
     public function upload_file_remote(string $folder, string $files_urls)
     {
-        return Http::withHeaders([
+        return $this->http->withHeaders([
             'X-Filerobot-Key' => $this->key,
             'Content-Type'    => 'application/json'
         ])->post($this->api_file . '?folder=' . $folder, [
@@ -151,7 +152,7 @@ class FilerobotAdapter
      */
     public function upload_file_binary(string $name, string $data)
     {
-        return Http::withHeaders([
+        return $this->http->withHeaders([
             'X-Filerobot-Key' => $this->key,
             'Content-Type'    => 'application/json'
         ])->post($this->api_file, [
@@ -173,7 +174,7 @@ class FilerobotAdapter
      */
     public function list_folder(string $folder = '', string $query = '', string $order = 'filename,desc', int $limit = 50, int $offset = 0)
     {
-        return Http::withHeaders([
+        return $this->http->withHeaders([
             'X-Filerobot-Key' => $this->key,
             'Content-Type'    => 'application/json'
         ])->get($this->api_folder, [
@@ -193,7 +194,7 @@ class FilerobotAdapter
      */
     public function detail_folder(string $folder_uuid)
     {
-        return Http::withHeaders([
+        return $this->http->withHeaders([
             'X-Filerobot-Key' => $this->key,
             'Content-Type'    => 'application/json'
         ])->get($this->api_folder . '/' . $folder_uuid)->json();
@@ -207,7 +208,7 @@ class FilerobotAdapter
      */
     public function rename_folder(string $folder_uuid, string $name_new)
     {
-        return Http::withHeaders([
+        return $this->http->withHeaders([
             'X-Filerobot-Key' => $this->key,
             'Content-Type'    => 'application/json'
         ])->patch($this->api_folder . '/' . $folder_uuid, [
@@ -223,7 +224,7 @@ class FilerobotAdapter
      */
     public function move_folder(string $folder_uuid, string $destination_folder_uuid)
     {
-        return Http::withHeaders([
+        return $this->http->withHeaders([
             'X-Filerobot-Key' => $this->key,
             'Content-Type'    => 'application/json'
         ])->put($this->api_folder . '/' . $folder_uuid . '/folders/' . $destination_folder_uuid)->json();
@@ -236,7 +237,7 @@ class FilerobotAdapter
      */
     public function delete_folder(string $folder_uuid)
     {
-        return Http::withHeaders([
+        return $this->http->withHeaders([
             'X-Filerobot-Key' => $this->key,
             'Content-Type'    => 'application/json'
         ])->delete($this->api_folder . '/' . $folder_uuid)->json();
@@ -249,7 +250,7 @@ class FilerobotAdapter
      */
     public function create_folder(string $name)
     {
-        return Http::withHeaders([
+        return $this->http->withHeaders([
             'X-Filerobot-Key' => $this->key,
             'Content-Type'    => 'application/json'
         ])->post($this->api_folder, [
