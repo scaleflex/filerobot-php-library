@@ -91,7 +91,7 @@ Multiple methods are available to suit different needs
 
 ##### - Method 1 - multipart/form-data request
 ``` php
-return $this->filerobot->upload_file_multipart('/api-demo', 'path/bear.jpg', 'bear.jpg');
+return $this->filerobot->upload_file_multipart('/api-demo', '/path/bear.jpg', 'bear.jpg');
 ```
 
 ##### - Method 2 - URL(s) of remotely hosted file(s)
@@ -102,7 +102,18 @@ return $this->filerobot->upload_file_remote('/api-demo', '[{"name": "new_filenam
 ##### - Method 3 - base64-encoded content
 ``` php
 $image = base64_encode(file_get_contents('path/bear.jpeg'));
-return $this->filerobot->upload_file_binary('new_image_from_base64.png', $image)
+return $this->filerobot->upload_file_binary('/folder/new_image_from_base64.png', $image)
+```
+
+#### Stream upload file
+This method is useful for uploading files larger than 500MB. The content of the request will be streamed into to the storage container
+``` php
+return $this->filerobot->stream_upload_file('/api-demo', '/path/bear.jpg', 'bear.jpg');
+```
+
+#### Update file metadata
+``` php
+return $this->filerobot->update_file_metadata($file_uuid, '{"title": {"de_DE": "Boot",  "en_US": "boat"}}');
 ```
 
 ### Folders operations
@@ -148,4 +159,3 @@ Creates a folder from the value given in the body.
 ``` php
 return $this->filerobot->create_folder($foldername)
 ```
-

@@ -8,6 +8,8 @@ class FilerobotAdapter
 
     private $api_file = 'https://api.filerobot.com/fdocs/v4/files';
 
+    private $api_file_meta = 'https://api.filerobot.com/fdocs/v4/file';
+
     private $api_folder = 'https://api.filerobot.com/fdocs/v4/folders';
 
     private $http;
@@ -127,6 +129,44 @@ class FilerobotAdapter
     }
 
     /**
+     * Stream upload file
+     *
+     * @param string $folder
+     * @param string $path
+     * @param string $filename
+     * @return array|mixed
+     */
+    public function stream_upload_file(string $folder, string $path, string $filename)
+    {
+        $photo = fopen($path, 'r');
+
+        return $this->http->withHeaders([
+            'X-Filerobot-Key' => $this->key,
+        ])->attach(
+            'attachment',
+            $photo,
+            $filename
+        )->post($this->api_file . '?folder=' . $folder);
+    }
+
+    /**
+     * Update file meta data
+     *
+     * @param string $file_uuid
+     * @param string $meta
+     * @return array|mixed
+     */
+    public function update_file_metadata(string $file_uuid, string $meta)
+    {
+        return $this->http->withHeaders([
+            'X-Filerobot-Key' => $this->key,
+            'Content-Type'    => 'application/json'
+        ])->put($this->api_file_meta . '/' . $file_uuid ."/meta?",[
+            "meta" => json_decode($meta)
+        ]);
+    }
+
+    /**
      * Upload file by remote
      *
      * @param string $folder
@@ -142,7 +182,7 @@ class FilerobotAdapter
             'files_urls' => json_decode($files_urls)
         ]);
     }
-    
+
     /**
      * Upload file by base64
      *
