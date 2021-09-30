@@ -136,15 +136,13 @@ class FilerobotAdapter
      * @param string $filename
      * @return array|mixed
      */
-    public function stream_upload_file(string $folder, string $path, string $filename)
+    public function stream_upload_file(string $folder, $resource, string $filename)
     {
-        $photo = fopen($path, 'r');
-
         return $this->http->withHeaders([
             'X-Filerobot-Key' => $this->key,
         ])->attach(
             'attachment',
-            $photo,
+            $resource,
             $filename
         )->post($this->api_file . '?folder=' . $folder);
     }

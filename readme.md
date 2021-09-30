@@ -108,7 +108,8 @@ return $this->filerobot->upload_file_binary('/folder/new_image_from_base64.png',
 #### Stream upload file
 This method is useful for uploading files larger than 500MB. The content of the request will be streamed into to the storage container
 ``` php
-return $this->filerobot->stream_upload_file('/api-demo', '/path/bear.jpg', 'bear.jpg');
+$photo = fopen('/path/bear.jpg', 'r');
+return $this->filerobot->stream_upload_file('/api-demo', $photo, 'bear.jpg');
 ```
 
 #### Update file metadata
